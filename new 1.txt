@@ -1,0 +1,92 @@
+20 Zapytań podzielonych na 4 poziomy trudności na każdym poziomie 5 zapytań
+
+Poziom początkujący zapytania do jednej tabeli
+1 Wybranie wszystkich rekordów z tabeli Books
+2 Wybranie rekordów z tabeli Authors gdzie LasName jest Henryk
+3 Wybranie rekordów z tabeli Publishers gdzie CompanyName zaczyna się od litery p
+4 Wybranie rekordów z tabeli Books gdzie Price jest większa od 50
+5 Wybranie rekordów z tabeli Books_Authors gdzie Discount jest większy od 0
+#------------------------------------------------------------------------------------
+
+#AD1
+select *
+from [Books];
+
+#AD2
+select *
+from [Authors]
+where [LastName] = 'Henryk';
+
+#AD3
+select *
+from [Publishers]
+where [CompanyName] like 'p%';
+
+#AD4
+select *
+from [Books]
+where [Price] > 50;
+
+AD5
+select *
+from [Books_Authors]
+where [Discount] > 0;
+#------------------------------------------------------------------------------------
+
+Poziom podstawowy zapytania do 2 tabel
+1 Wybranie wszystkich rekordów z tabel Books i Types
+2 Wybranie rekordów z tabeli Books i Publichers gdzie HomePage nie jest pusty
+3 Wybranie rekordów z tabeli Books i Types gdzie TypeName jest Criminal albo Poem
+4 Wybranie rekordów z tabeli Authors i Books_Authors gdzie City jest Mardrid i Discount jest
+większe od 0, posortowanie rosnąco po LastName
+5 Wybranie rekordów z tabeli Books i Books_Authors gdzie Discount jest większe niż 0
+posortowane malejąco po Discount
+#------------------------------------------------------------------------------------
+
+AD1
+select b.*, t*
+from Books b
+join [Type] t on b.[typeID] = t.[typeID];
+
+AD2
+select b.*, p.*
+from Books b
+join [Publichers] p on b.[PublichersID] = p.[PublichersID]
+where p.HomePage is NOT NULL;
+
+AD3
+select b.*, t.*
+from Books b,
+join [Types] t, on b.[TypeID] = t.[TypeID]
+where t.TypeName =  'Criminal' or  t.TypeName = 'Poem';
+
+AD4
+select a.*, b.*
+from Authors a
+join [Books_Authors] b on a.[AuthorID] = b.[AuthorID]
+where a.[City] = 'Madrid' and b.[Discount] >0
+order by LasName
+
+AD5
+
+#------------------------------------------------------------------------------------
+Poziom średniozaawansowany zapytania grupujące do 2 tabel
+ Ilość książek, autora pogrupowane po LastName
+ Średnia Discount autora pogrupowane po Lastname
+ Ilość ksiązek wydawnictwa pogrupowane po CompanyName
+ Suma Price ksiżek gdzie TypeName jest Criminal albo Poem pogrupowane po
+TypeName
+ Średnia Discount na książkę pogrupowana po Title
+
+
+
+Poziom zaawansowany zapytania grupujące do kilku tabel z warunkami na funkcjach
+agregacyjnych
+ Średnia Price książek autora większa niż 23 pogrupowana po LastName
+ Ilość Discount w danym wydawnictwie większa niż 5 pogrupowana po CompanyName
+ Ilość TypeName autora większa niż 3 pogrupowana po Lastname i TypeName posortowane
+rosnąco po LastName
+ Ilość CompanyName większa niż 1 gdzie CompanyName kończy się na literę s, pogrupowane
+po LastName i CompanyName, posortowane malejąco po CompanyName
+ Suma Price autora większa niż 350 gdzie tytuł ma w sobie literę c pogrupowane po Lastname
+i posortowane rosnąco po LastName
