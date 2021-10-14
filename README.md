@@ -121,7 +121,7 @@ in our data.
 
 </p>
 
-<table class="table table-striped" style="width: auto !important; ">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
