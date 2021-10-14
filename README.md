@@ -1278,7 +1278,7 @@ results. I mean here random forest (ACC = 70.6), gradient boosting (ACC
 
 </div>
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
