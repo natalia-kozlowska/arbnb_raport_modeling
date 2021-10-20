@@ -2,26 +2,15 @@
 title: "AIRBNB raport"
 author: "Natalia Kozlowska"
 date: "20 10 2021"
-output:
+output: 
   html_document:
-    toc: yes
-    toc_float: yes
-    theme: cosmo
     keep_md: true
-  pdf_document:
-    toc: yes
-  # md_document:
-    # variant: markdown_github
-params:
-  year: 1995
-editor_options:
-  chunk_output_type: console
 ---
 
 
 
 <center>
-![](picture/logo.jpeg)
+![](logo.jpeg)
 
 *********************************************************************************
 <div style="text-align: justify"> 
