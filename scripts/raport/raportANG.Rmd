@@ -1,7 +1,7 @@
 ---
 title: "AIRBNB raport"
 author: "Natalia Kozlowska"
-date: "10 10 2021"
+date: "20 10 2021"
 output:
    html_document:
       self_contained: false
@@ -9,6 +9,7 @@ output:
 ---
 
 ```{r setup, include = FALSE}
+
 knitr::opts_chunk$set(
   echo = FALSE,
   warning = FALSE,
@@ -18,6 +19,7 @@ knitr::opts_chunk$set(
   fig.width = 6,
   fig.asp = 0.618
   )
+
 library("naniar")
 library("dplyr")
 library("tidyverse")
@@ -31,6 +33,7 @@ library("corrplot")
 library("recipes")
 library("scales")
 library("ggmap")
+library("kableExtra")
 
 airb <- read_csv("data/AB_NYC_2019.csv")
 set.seed(1)
@@ -100,7 +103,7 @@ test_price <- read_rds("documents/results.test_price.rds")
 ```
 
 <center>
-![](pic/logo.jpeg)
+![](picture/logo.jpeg)
 
 *********************************************************************************
 <div style="text-align: justify"> 
@@ -119,7 +122,7 @@ And ten years after it began operations, black clouds appeared over Airbnb, espe
 
 The act was intended to help city officials enforce the law that says it is not allowed to rent a flat for less than 30 days, unless the owner is also present at the time. In addition, the plan is to force landlords to inform the local authorities whether one room or the entire apartment is rented.
 
-All this information should be updated monthly, and stored in an appropriate database, a database that we will analyze together! The database comes from the website [Kaggle] (https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data) and has all entries of Airbnb users from 28/03/2011 to 08/07/2019 and it is very extensive. It has as many as `r length (unique (airb))` unique values.
+All this information should be updated monthly, and stored in an appropriate database, a database that we will analyze together! The database comes from the website [Kaggle](https://www.kaggle.com/dgomonov/new-york-city-airbnb-open-data) and has all entries of Airbnb users from 28/03/2011 to 08/07/2019 and it is very extensive. It has as many as `r length (unique (airb))` unique values.
 
 In my analysis, I would like to focus mainly on what could hypothetically affect the price of a New York apartment through the Airbnb website. Is it only the location that may affect the price or, for example, the type of apartment offered?
 
@@ -173,11 +176,10 @@ corrplot::corrplot(M, tl.col = "#e85d04", bg = "#dad7cd", tl.srt = 15,
 ```
 
 <p>&nbsp;</p>
-
 ```{r}
-kableExtra::kbl(df) %>%
-  kableExtra::kable_styling(bootstrap_options = "striped", full_width = F, 
-                            position = "left")
+kableExtra::kable(df) %>% 
+kableExtra::kable_styling(
+                          full_width = F, position = "center")   
 ```
 <p>&nbsp;</p>
 <div style="text-align: justify"> 
@@ -310,7 +312,7 @@ Let's look at the basic statistics for each district separately. Let us pay atte
 
 </div> 
 <p>&nbsp;</p>
-```{r}
+```{r, fig.align='center'}
 x2 %>%
 kableExtra::kbl() %>%
 kableExtra::kable_paper(full_width = F) %>%
@@ -808,11 +810,9 @@ filter(year_add == 2018) %>%
         panel.background = element_rect(fill = "#dad7cd"),
         axis.title = element_text(size = 9),
         legend.position = "bottom"
-  )
+  ) +
   geom_vline(xintercept = ymd("2016-01-01"), col = "red")
 ```
-
-<p>&nbsp;</p>
 
 ```{r}
 airb %>% 
@@ -940,6 +940,7 @@ ggplot(airb, aes(year_add, fill = room_type)) +
   labs(x = "year",
        y = NULL) 
 ```
+<p>&nbsp;</p>
 
 #### MODELING - PRICE
 <div style="text-align: justify"> 
@@ -948,19 +949,31 @@ I present the modeling results below. My dependent variable was price so the pro
 
 </div>
 ```{r}
-test_price %>% 
-  kableExtra::kbl() %>%
-  kableExtra::kable_styling()
+test_price %>%
+  kbl(caption = "Results of regression models",  digits = 2) %>%
+  kable_styling(font_size = 20) %>%
+  kable_classic(full_width = F, html_font = "Cambria") %>% 
+  column_spec(1, background = "#dad7cd") %>% 
+  column_spec(2, background = "#f7f4e9") %>% 
+  column_spec(4, background = "#f7f4e9") %>% 
+  row_spec(5, bold = T, color = "white", background = "#e3cc78")
 ```
+<p>&nbsp;</p>
 
 #### MODELING - NEIGHBOURHOOD GROUP
 <div style="text-align: justify"> 
 
-As for the classification problem related to the New York neighborhoods. In this particular case, we can say that the three models showed similar results. I mean here random forest (ACC = 70.6), gradient boosting (ACC = 70.3) and eXtreme Gradient Boosting (70.8).
+As for the classification problem related to the New York neighborhoods. In this particular case, we can say that the three models showed similar results. I mean here random forest (ACC = 70.6), gradient boosting (ACC = 70.3) and eXtreme Gradient Boosting (70.8). #ebd2a0
 
 </div>
 ```{r}
 test_group %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_styling()
+  kbl(caption = "Results of the predictive models", centering = TRUE,  
+      digits = 4) %>%
+  kable_styling(font_size = 20) %>%
+  kable_classic(full_width = F, html_font = "Cambria") %>% 
+  #row_spec(row = 6, bold = T, background =  "#D7261E") %>%
+  column_spec(1, background = "#f7f4e9") %>% 
+  column_spec(3, background = "#f7f4e9") %>% 
+  row_spec(6, bold = T, color = "white", background = "#e3cc78")
 ```
